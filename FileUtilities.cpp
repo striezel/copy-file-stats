@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of an utility to copy file permissions + ownership.
-    Copyright (C) 2014  Dirk Stolle
+    Copyright (C) 2014  Thoronador
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
