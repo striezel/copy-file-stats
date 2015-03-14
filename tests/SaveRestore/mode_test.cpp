@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of the test suite for copy-file-stats.
-    Copyright (C) 2015  Thoronador
+    Copyright (C) 2015  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 #include <cstring> //for memset()
 #include <unistd.h> //for rmdir(), unlink()
 #include <fstream>
-#include "../../SaveRestore.hpp"
+#include "../../program/SaveRestore.hpp"
 
 int main()
 {

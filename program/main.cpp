@@ -1,7 +1,7 @@
 /*
  -------------------------------------------------------------------------------
     This file is part of an utility to copy file permissions + ownership.
-    Copyright (C) 2014  Thoronador
+    Copyright (C) 2014  Dirk Stolle
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ const int rcInvalidParameter = 1;
 void showGPLNotice()
 {
   std::cout << "copy-file-stats\n"
-            << "  Copyright (C) 2014 Thoronador\n"
+            << "  Copyright (C) 2014 Dirk Stolle\n"
             << "\n"
             << "  This programme is free software: you can redistribute it and/or\n"
             << "  modify it under the terms of the GNU General Public License as published\n"
