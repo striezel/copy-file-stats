@@ -116,7 +116,7 @@ bool copy_file_stats(const std::string& src_path, const std::string& dest_path, 
   }
   struct stat src_statbuf;
   int ret = lstat(src_path.c_str(), &src_statbuf);
-  if (0!=ret)
+  if (0 != ret)
   {
     int errorCode = errno;
     std::cout << "Error while querying status of \"" << src_path << "\": Code " << errorCode << " (" << strerror(errorCode) << ").\n";
@@ -124,19 +124,19 @@ bool copy_file_stats(const std::string& src_path, const std::string& dest_path, 
   }
   struct stat dest_statbuf;
   ret = lstat(dest_path.c_str(), &dest_statbuf);
-  if (0!=ret)
+  if (0 != ret)
   {
     int errorCode = errno;
     if (errorCode == ENOENT)
     {
-      //destination file does not exist, skip silently
+      // destination file does not exist, skip silently
       return true;
     }
     std::cout << "Error while querying status of \"" << dest_path << "\": Code "
               << errorCode << " (" << strerror(errorCode) << ").\n";
     return false;
   }
-  //check for equivalence
+  // check for equivalence
   if ((dest_statbuf.st_dev == src_statbuf.st_dev) and (dest_statbuf.st_ino==src_statbuf.st_ino))
   {
     std::cout << "Error: " << src_path << " and " << dest_path << " are the same file!\n";
@@ -146,7 +146,7 @@ bool copy_file_stats(const std::string& src_path, const std::string& dest_path, 
   // mode change allowed?
   if (permissions)
   {
-    //check for required permission change
+    // check for required permission change
     if (Mode::onlyPermissions(dest_statbuf.st_mode) != Mode::onlyPermissions(src_statbuf.st_mode))
     {
       if (verbose or dryRun)
@@ -165,14 +165,14 @@ bool copy_file_stats(const std::string& src_path, const std::string& dest_path, 
                     << "\": Code " << errorCode << " (" << strerror(errorCode) << ").\n";
           return false;
         }
-      }//if not dry run
+      }// if not dry run
     }
   }// if permissions
 
   // ownership change allowed?
   if (ownership)
   {
-    //change needed?
+    // change needed?
     if ((dest_statbuf.st_uid!=src_statbuf.st_uid) or (dest_statbuf.st_gid!=src_statbuf.st_gid))
     {
       if (verbose or dryRun)
@@ -192,26 +192,25 @@ bool copy_file_stats(const std::string& src_path, const std::string& dest_path, 
                     << ").\n";
           return false;
         }
-      }//if not dry run
-    } //if change required
-  }//if ownership
+      } // if not dry run
+    } // if change required
+  } // if ownership
   return true;
 }
 
 bool copy_stats_recursive(const std::string& src_dir, const std::string& dest_dir, const bool permissions, const bool ownership, const bool verbose, const bool dryRun)
 {
   const std::vector<FileEntry> files = getDirectoryFileList(src_dir);
-  unsigned int i;
-  for (i=0; i<files.size(); ++i)
+  for (std::vector<FileEntry>::size_type i = 0; i < files.size(); ++i)
   {
-    if ((files[i].fileName!="..") and (files[i].fileName!="."))
+    if ((files[i].fileName!= "..") && (files[i].fileName != "."))
     {
-      //handle file/dir itself
+      // handle file/directory itself
       if (!copy_file_stats(src_dir+pathDelimiter+files[i].fileName, dest_dir+pathDelimiter+files[i].fileName, permissions, ownership, verbose, dryRun))
       {
         return false;
       }
-      //handle directory content, if it's a directory
+      // handle directory content, if it's a directory
       if (files[i].isDirectory)
       {
         if (!copy_stats_recursive(src_dir+pathDelimiter+files[i].fileName, dest_dir+pathDelimiter+files[i].fileName, permissions, ownership, verbose, dryRun))
@@ -219,12 +218,12 @@ bool copy_stats_recursive(const std::string& src_dir, const std::string& dest_di
           return false;
         }
       }
-    }//if not dot or dot+dot
-  }//for
+    } // if not dot or dot+dot
+  } // for
   return true;
 }
 
 bool fileExists(const std::string& fileName)
 {
-  return (access(fileName.c_str(), F_OK)==0);
+  return access(fileName.c_str(), F_OK) == 0;
 }

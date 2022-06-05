@@ -43,25 +43,25 @@ bool SaveRestore::getStatString(const std::string& src_path, const std::string& 
   int ret = lstat(src_path.c_str(), &src_statbuf);
   if (0 != ret)
   {
-    //error while querying status of src_path
+    // error while querying status of src_path
     return false;
   }
 
   statLine.clear();
-  //read access for user
+  // read access for user
   if ((src_statbuf.st_mode & S_IRUSR) == S_IRUSR)
     statLine = "r";
   else
     statLine = "-";
-  //write access for user
+  // write access for user
   if ((src_statbuf.st_mode & S_IWUSR) == S_IWUSR)
     statLine.append("w");
   else
     statLine.append("-");
-  //executable bit for user
+  // executable bit for user
   if ((src_statbuf.st_mode & S_IXUSR) == S_IXUSR)
   {
-    //UID bit set?
+    // UID bit set?
     if ((src_statbuf.st_mode & S_ISUID) == S_ISUID)
       statLine.append("s");
     else
@@ -69,27 +69,27 @@ bool SaveRestore::getStatString(const std::string& src_path, const std::string& 
   }
   else
   {
-    //UID bit set?
+    // UID bit set?
     if ((src_statbuf.st_mode & S_ISUID) == S_ISUID)
       statLine.append("S");
     else
       statLine.append("-");
   }
 
-  //read access for group
+  // read access for group
   if ((src_statbuf.st_mode & S_IRGRP) == S_IRGRP)
     statLine.append("r");
   else
     statLine.append("-");
-  //write access for group
+  // write access for group
   if ((src_statbuf.st_mode & S_IWGRP) == S_IWGRP)
     statLine.append("w");
   else
     statLine.append("-");
-  //executable bit for group
+  // executable bit for group
   if ((src_statbuf.st_mode & S_IXGRP) == S_IXGRP)
   {
-    //GID bit set?
+    // GID bit set?
     if ((src_statbuf.st_mode & S_ISGID) == S_ISGID)
       statLine.append("s");
     else
@@ -97,27 +97,27 @@ bool SaveRestore::getStatString(const std::string& src_path, const std::string& 
   }
   else
   {
-    //GID bit set?
+    // GID bit set?
     if ((src_statbuf.st_mode & S_ISGID) == S_ISGID)
       statLine.append("S");
     else
       statLine.append("-");
   }
 
-  //read access for others
+  // read access for others
   if ((src_statbuf.st_mode & S_IROTH) == S_IROTH)
     statLine.append("r");
   else
     statLine.append("-");
-  //write access for others
+  // write access for others
   if ((src_statbuf.st_mode & S_IWOTH) == S_IWOTH)
     statLine.append("w");
   else
     statLine.append("-");
-  //executable bit for others
+  // executable bit for others
   if ((src_statbuf.st_mode & S_IXOTH) == S_IXOTH)
   {
-    //sticky bit set?
+    // sticky bit set?
     if ((src_statbuf.st_mode & S_ISVTX) == S_ISVTX)
       statLine.append("t");
     else
@@ -125,14 +125,14 @@ bool SaveRestore::getStatString(const std::string& src_path, const std::string& 
   }
   else
   {
-    //GID bit set?
+    // GID bit set?
     if ((src_statbuf.st_mode & S_ISVTX) == S_ISVTX)
       statLine.append("T");
     else
       statLine.append("-");
   }
 
-  //space before user name
+  // space before user name
   statLine += " ";
 
   const struct passwd *pwd = getpwuid(src_statbuf.st_uid);
@@ -142,7 +142,7 @@ bool SaveRestore::getStatString(const std::string& src_path, const std::string& 
     statLine += "?";
   statLine += " " + uintToString(src_statbuf.st_uid);
 
-  //space before group name
+  // space before group name
   statLine += " ";
 
   const struct group * grp = getgrgid(src_statbuf.st_gid);
@@ -152,7 +152,7 @@ bool SaveRestore::getStatString(const std::string& src_path, const std::string& 
     statLine += "?";
   statLine += " " + uintToString(src_statbuf.st_gid);
 
-  //file name + space
+  // file name + space
   if (removeSuffix.empty())
   {
     statLine += " " + src_path;
@@ -169,17 +169,17 @@ bool SaveRestore::getStatString(const std::string& src_path, const std::string& 
     {
       statLine += " " + src_path;
     }
-  } //else (removeSuffix not empty)
+  } // else (removeSuffix not empty)
   return true;
 }
 
 
 bool SaveRestore::stringToMode(const std::string& mode_string, mode_t& mode)
 {
-  //string should be exactly nine characters long
+  // string should be exactly nine characters long
   if (mode_string.size() != 9)
     return false;
-  //read access for user
+  // read access for user
   switch(mode_string[0])
   {
     case 'r':
@@ -189,11 +189,11 @@ bool SaveRestore::stringToMode(const std::string& mode_string, mode_t& mode)
          mode = 0;
          break;
     default:
-         //invalid character
+         // invalid character
          return false;
-  } //swi
+  } // swi
 
-  //write access for user
+  // write access for user
   switch(mode_string[1])
   {
     case 'w':
@@ -203,11 +203,11 @@ bool SaveRestore::stringToMode(const std::string& mode_string, mode_t& mode)
          // mode |= 0;
          break;
     default:
-         //invalid character
+         // invalid character
          return false;
-  } //swi
+  } // swi
 
-  //executable status for user
+  // executable status for user
   switch(mode_string[2])
   {
     case 'x':
@@ -223,25 +223,25 @@ bool SaveRestore::stringToMode(const std::string& mode_string, mode_t& mode)
          mode |= S_ISUID;
          break;
     default:
-         //invalid character
+         // invalid character
          return false;
-  } //swi
+  } // swi
 
-  //read access for group
+  // read access for group
   switch(mode_string[3])
   {
     case 'r':
          mode |= S_IRGRP;
          break;
     case '-':
-         //mode |= 0;
+         // mode |= 0;
          break;
     default:
-         //invalid character
+         // invalid character
          return false;
-  } //swi
+  }
 
-  //write access for group
+  // write access for group
   switch(mode_string[4])
   {
     case 'w':
@@ -251,11 +251,11 @@ bool SaveRestore::stringToMode(const std::string& mode_string, mode_t& mode)
          // mode |= 0;
          break;
     default:
-         //invalid character
+         // invalid character
          return false;
-  } //swi
+  }
 
-  //executable status for group
+  // executable status for group
   switch(mode_string[5])
   {
     case 'x':
@@ -271,25 +271,25 @@ bool SaveRestore::stringToMode(const std::string& mode_string, mode_t& mode)
          mode |= S_ISGID;
          break;
     default:
-         //invalid character
+         // invalid character
          return false;
-  } //swi
+  }
 
-  //read access for others
+  // read access for others
   switch(mode_string[6])
   {
     case 'r':
          mode |= S_IROTH;
          break;
     case '-':
-         //mode |= 0;
+         // mode |= 0;
          break;
     default:
-         //invalid character
+         // invalid character
          return false;
-  } //swi
+  } // swi
 
-  //write access for others
+  // write access for others
   switch(mode_string[7])
   {
     case 'w':
@@ -299,11 +299,11 @@ bool SaveRestore::stringToMode(const std::string& mode_string, mode_t& mode)
          // mode |= 0;
          break;
     default:
-         //invalid character
+         // invalid character
          return false;
-  } //swi
+  }
 
-  //executable bit for others
+  // executable bit for others
   switch(mode_string[8])
   {
     case 'x':
@@ -319,11 +319,11 @@ bool SaveRestore::stringToMode(const std::string& mode_string, mode_t& mode)
          mode |= S_ISVTX;
          break;
     default:
-         //invalid character
+         // invalid character
          return false;
-  } //swi
+  }
 
-  //finished successfully
+  // finished successfully
   return true;
 }
 
@@ -331,7 +331,7 @@ bool SaveRestore::stringToUID(const std::string& user_name, const std::string& u
 {
   if ((user_name != "?") && (!user_name.empty()))
   {
-    //Can we use the cache and is the name already in the cache?
+    // Can we use the cache and is the name already in the cache?
     if (mUseCache)
     {
       const std::map<std::string, uid_t>::const_iterator found = mUserCache.find(user_name);
@@ -346,14 +346,14 @@ bool SaveRestore::stringToUID(const std::string& user_name, const std::string& u
         mUserCache[user_name] = ptr->pw_uid;
       return true;
     }
-  } //if user_name not "?"
-  //fall back on uid string
+  } // if user_name not "?"
+  // fall back on uid string
   unsigned int possibleUID = 0;
   if (stringToUint(uid_string, possibleUID))
   {
     UID = possibleUID;
     return true;
-  } //if
+  }
   return false;
 }
 
@@ -361,7 +361,7 @@ bool SaveRestore::stringToGID(const std::string& group_name, const std::string& 
 {
   if ((group_name != "?") && (!group_name.empty()))
   {
-    //Can we use the cache and is the name in the cache already?
+    // Can we use the cache and is the name in the cache already?
     if (mUseCache)
     {
       const std::map<std::string, gid_t>::const_iterator found = mGroupCache.find(group_name);
@@ -377,14 +377,14 @@ bool SaveRestore::stringToGID(const std::string& group_name, const std::string& 
         mGroupCache[group_name] = ptr->gr_gid;
       return true;
     }
-  } //if group_name not "?"
-  //fall back on gid string
+  } // if group_name not "?"
+  // fall back on gid string
   unsigned int possibleGID = 0;
   if (stringToUint(gid_string, possibleGID))
   {
     GID = possibleGID;
     return true;
-  } //if
+  }
   return false;
 }
 
@@ -407,11 +407,11 @@ bool SaveRestore::statLineToData(const std::string& statLine, mode_t& mode, uid_
     }
     else
     {
-      //space - break out of loop
+      // space - break out of loop
       break;
     }
     ++sIter;
-  } //while
+  }
   if (!stringToMode(modeString, mode))
     return false;
 
@@ -426,13 +426,13 @@ bool SaveRestore::statLineToData(const std::string& statLine, mode_t& mode, uid_
     }
     else
     {
-      //space - break out of loop
+      // space - break out of loop
       break;
     }
     ++sIter;
-  } //while
+  }
 
-  //skip space
+  // skip space
   if (sIter == statLine.end())
     return false;
   ++sIter;
@@ -445,16 +445,16 @@ bool SaveRestore::statLineToData(const std::string& statLine, mode_t& mode, uid_
     }
     else
     {
-      //space - break out of loop
+      // space - break out of loop
       break;
     }
     ++sIter;
-  } //while
+  }
 
   if (!stringToUID(name, idString, UID))
     return false;
 
-  //skip space
+  // skip space
   if (sIter == statLine.end())
     return false;
   ++sIter;
@@ -470,13 +470,13 @@ bool SaveRestore::statLineToData(const std::string& statLine, mode_t& mode, uid_
     }
     else
     {
-      //space - break out of loop
+      // space - break out of loop
       break;
     }
     ++sIter;
-  } //while
+  }
 
-  //skip space
+  // skip space
   if (sIter == statLine.end())
     return false;
   ++sIter;
@@ -489,16 +489,16 @@ bool SaveRestore::statLineToData(const std::string& statLine, mode_t& mode, uid_
     }
     else
     {
-      //space - break out of loop
+      // space - break out of loop
       break;
     }
     ++sIter;
-  } //while
+  }
 
   if (!stringToGID(name, idString, GID))
     return false;
 
-  //skip space
+  // skip space
   if (sIter == statLine.end())
     return false;
   ++sIter;
@@ -509,7 +509,7 @@ bool SaveRestore::statLineToData(const std::string& statLine, mode_t& mode, uid_
 
 bool SaveRestore::save(const std::string& src_directory, const std::string& statFileName, const bool verbose)
 {
-  //We don't want to overwrite an existing file.
+  // We don't want to overwrite an existing file.
   if (fileExists(statFileName))
   {
     if (verbose)
@@ -517,7 +517,7 @@ bool SaveRestore::save(const std::string& src_directory, const std::string& stat
     return false;
   }
 
-  //open file for writing
+  // open file for writing
   std::ofstream statStream(statFileName.c_str(), std::ios::out | std::ios::binary);
   if (!statStream.good())
   {
@@ -527,7 +527,7 @@ bool SaveRestore::save(const std::string& src_directory, const std::string& stat
   }
 
   const bool success = saveRecursive(src_directory, slashify(src_directory), statStream, verbose);
-  //close file
+  // close file
   statStream.close();
   return success;
 }
@@ -535,7 +535,7 @@ bool SaveRestore::save(const std::string& src_directory, const std::string& stat
 bool SaveRestore::saveRecursive(const std::string& src_directory, const std::string& removeSuffix, std::ofstream& statStream, const bool verbose)
 {
   const std::vector<FileEntry> files = getDirectoryFileList(src_directory);
-  //empty directory or directory does not exist
+  // empty directory or directory does not exist
   if (files.empty())
   {
     if (verbose)
@@ -560,7 +560,7 @@ bool SaveRestore::saveRecursive(const std::string& src_directory, const std::str
   {
     if ((files[i].fileName != "..") and (files[i].fileName != "."))
     {
-      //handle file/dir itself
+      // handle file/directory itself
       std::string line;
       if (!getStatString(slashify(src_directory)+files[i].fileName, removeSuffix, line))
       {
@@ -568,7 +568,7 @@ bool SaveRestore::saveRecursive(const std::string& src_directory, const std::str
           std::cout << "Error: Could not generate info line for file " << (slashify(src_directory)+files[i].fileName) << ".\n";
         return false;
       }
-      //write to file
+      // write to file
       statStream.write(line.c_str(), line.size());
       statStream.write("\n", 1);
       if (!statStream.good())
@@ -578,7 +578,7 @@ bool SaveRestore::saveRecursive(const std::string& src_directory, const std::str
         return false;
       }
 
-      //handle directory content, if it's a directory
+      // handle directory content, if it's a directory
       if (files[i].isDirectory)
       {
         if (!saveRecursive(slashify(src_directory)+files[i].fileName, removeSuffix, statStream, verbose))
@@ -586,14 +586,14 @@ bool SaveRestore::saveRecursive(const std::string& src_directory, const std::str
           return false;
         }
       }
-    }//if not dot or dot+dot
-  }//for
+    } // if not dot or dot+dot
+  } // for
   return true;
 }
 
 bool SaveRestore::restore(const std::string& dest_directory, const std::string& statFileName, const bool permissions, const bool ownership, const bool verbose, const bool dryRun)
 {
-  if (!(permissions or ownership))
+  if (!(permissions || ownership))
   {
     std::cout << "Hint: No stats to change!\n";
     return true;
@@ -604,7 +604,7 @@ bool SaveRestore::restore(const std::string& dest_directory, const std::string& 
     return false;
   }
 
-  //open file for reading
+  // open file for reading
   std::ifstream statStream(statFileName.c_str(), std::ios::in | std::ios::binary);
   if (!statStream.good())
   {
@@ -633,7 +633,7 @@ bool SaveRestore::restore(const std::string& dest_directory, const std::string& 
       statStream.close();
       std::cout << "Error: Could not extract data from line \"" << line << "\"!\n";
       return false;
-    } //if statLineToData() failed
+    }
 
 
     const std::string destinationFile(slashify(dest_directory) + file);
@@ -651,14 +651,14 @@ bool SaveRestore::restore(const std::string& dest_directory, const std::string& 
       }
       else
       {
-        //destination file does not exist, skip silently - except when verbose
+        // destination file does not exist, skip silently - except when verbose
         if (verbose or dryRun)
           std::cout << "Info: file \""<<destinationFile<<"\" does not exist, skipping.\n";
-      } //else
+      }
     }
     else
     {
-      //mode change requested?
+      // mode change requested?
       if (permissions)
       {
         if (Mode::onlyPermissions(dest_statbuf.st_mode) != Mode::onlyPermissions(mode))
@@ -677,14 +677,14 @@ bool SaveRestore::restore(const std::string& dest_directory, const std::string& 
                         << "\": Code " << errorCode << " (" << strerror(errorCode) << ").\n";
               statStream.close();
               return false;
-            } //if ret != 0
-          } //if not dryRun
-        } //if permissions do not match
-      } //if permissions shall be adjusted
+            } // if ret != 0
+          } // if not dryRun
+        } // if permissions do not match
+      } // if permissions shall be adjusted
 
       if (ownership)
       {
-        //check, if user and group match
+        // check, if user and group match
         if ((dest_statbuf.st_uid != UID) || (dest_statbuf.st_gid != GID))
         {
           if (verbose or dryRun)
@@ -704,12 +704,12 @@ bool SaveRestore::restore(const std::string& dest_directory, const std::string& 
                         << "\": Code " << errorCode << " (" << strerror(errorCode)
                         << ").\n";
               return false;
-            } //if 0 != ret
-          } //if not dry run
-        } //if owners do not match
-      } //if ownership shall be adjusted
-    } //else (lstat succeeded)
-  } //while
+            } // if 0 != ret
+          } // if not dry run
+        } // if owners do not match
+      } // if ownership shall be adjusted
+    } // else (lstat succeeded)
+  } // while
 
   statStream.close();
   return true;
