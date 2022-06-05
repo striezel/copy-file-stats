@@ -1,5 +1,4 @@
-copy-file-stats
-===============
+# copy-file-stats
 
 copy-file-stats is a small program to "copy" file stats from one files in one
 directory and its subdirectories to another directory and its subdirectories.
@@ -9,8 +8,8 @@ port neither exists nor is it planned.
 
 The program expects three parameters: path to the source directory and path of
 the destination directory, in that order. Third parameter should be either
---dry-run or --force, depending on whether you just want to show, what would be
-changed or whether you want to perform those changes.
+`--dry-run` or `--force`, depending on whether you just want to show, what would
+be changed or whether you want to perform those changes.
 
 After copy-file-stats is done, files in the destination directory will have the
 same owner and permissions as the corresponding files in the source directory.
@@ -21,27 +20,27 @@ applies to files that are present in the destination but not in the source
 directory.
 
 copy-file-stats also has a save and a restore mode of operation, which is
-invoked via the option --save and --restore, respectively. When invoked with
-the --save parameter, the second parameter shall not be the source directory,
+invoked via the option `--save` and `--restore`, respectively. When invoked with
+the `--save` parameter, the second parameter shall not be the source directory,
 but the name of a file which shall be created. That file will then be used to
 store (or save) the current stats of the source directory. Such a file can
 later be used in restore mode. Restore mode is triggered when the program is
-invoked with the --restore parameter. In restore mode, an existing stat file
+invoked with the `--restore` parameter. In restore mode, an existing stat file
 is expected instead of a source directory. The stats from that file will then
 be applied to the destination directory, that is the previously saved stats
 will be restored.
-To avoid any confusion the --save and --restore options are mutually exclusive.
+To avoid any confusion the `--save` and `--restore` options are mutually
+exclusive.
 
 copy-file-stats is a command-line only program. There is no GUI, because I did
 not need a GUI.
 
 
-Command line options:
----------------------
+## Command line options:
 
 copy-file-stats supports several command line options.
 
-
+```
 copy-file-stats [options] SOURCE_DIR DESTINATION_DIR
 copy-file-stats [options] --save SOURCE_DIR STAT_FILE
 copy-file-stats [options] --restore STAT_FILE DESTINATION_DIR
@@ -75,11 +74,10 @@ copy-file-stats [options] --restore STAT_FILE DESTINATION_DIR
                      to save the stats of the source directory.
                      When used with --restore name of the file that will be
                      used to restore stats of the destination directory.
+```
 
 
-
-Build copy-file-stats from source:
-----------------------------------
+## Build copy-file-stats from source
 
 The source repository of copy-file-stats contains a CMakeLists.txt file that
 is suitable for use with CMake. CMake version 2.4 or later should be sufficient
@@ -104,8 +102,7 @@ copy-file-stats itself does NOT use new any language constructs from C++11 or
 C++14.
 
 
-Test suite
-----------
+## Test suite
 
 This repository also contains a test suite for copy-file-stats (see directory
 tests/). To build this test suite, you can type the following commands in the
@@ -121,8 +118,7 @@ features from C++11, so make sure your compiler supports that. g++ 4.7.2 or
 later should be enough to compile the test suite (and the program).
 
 
-Copyright and license:
-----------------------
+## Copyright and license
 
 Copyright 2014-2015 Dirk Stolle
 
