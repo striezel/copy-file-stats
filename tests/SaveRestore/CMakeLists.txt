@@ -31,7 +31,7 @@ set(string_to_mode_sources
     ../../program/SaveRestore.cpp
     stringToMode/string_to_mode.cpp)
 
-add_definitions (-Wall -O2 -fexceptions -std=c++0x)
+add_definitions (-Wall -Wextra -Wpedantic -pedantic-errors -Wshadow -O2 -fexceptions -std=c++0x)
 
 set( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -s" )
 
@@ -51,7 +51,7 @@ set(save_stat_file_test_sources
     ../../program/SaveRestore.cpp
     save/stat_file_test.cpp)
 
-add_definitions (-Wall -O2 -fexceptions)
+add_definitions (-Wall -Wextra -Wpedantic -pedantic-errors -Wshadow -O2 -fexceptions)
 
 set( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -s" )
 
@@ -76,7 +76,7 @@ set(restore_stat_file_test_sources
     ../../program/SaveRestore.cpp
     restore/stat_file_test.cpp)
 
-add_definitions (-Wall -O2 -fexceptions)
+add_definitions (-Wall -Wextra -Wpedantic -pedantic-errors -Wshadow -O2 -fexceptions)
 
 set( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -s" )
 
